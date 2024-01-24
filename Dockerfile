@@ -10,7 +10,7 @@ COPY ./ ./
 
 RUN npm install
 
-RUN npm install -g serve@latest
+RUN npm install -g serve@14.2.1
 
 RUN npm run-script build
 

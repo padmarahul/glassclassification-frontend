@@ -14,4 +14,4 @@ RUN npm install -g serve@13.0.4
 
 RUN npm run-script build
 
-ENTRYPOINT [ "serve", "-s", "build"]
+ENTRYPOINT [ "serve", "-s", "-n", "build"]

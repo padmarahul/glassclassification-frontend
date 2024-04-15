@@ -12,10 +12,10 @@ import {
   NavBtnLink,
 } from "./NavbarElements";
 import { capgLogo as Logo } from "../../common/imageUrls";
-import LogoTM from "../../common/assets/TMLogo.svg";
 import { FaBars } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-
+import LogoTM from "../../common/assets/untlogo.png";
+import { HeroContent } from "../HeroSection/HeroElements";
 
 
 const Navbar = ({ toggle }) => {
@@ -38,11 +38,17 @@ const Navbar = ({ toggle }) => {
     scroll.scrollToTop()
   }
 
-  // const handleClick=(e)=>
-  // {
-  //   e.preventDefault()
-  //   navigate("/createnewcontract");
-  // }
+  const handleImageClick=(e)=>
+  {
+    e.preventDefault()
+    navigate("/classifybyimage");
+  }
+
+  const handleTextClick=(e)=>
+  {
+    e.preventDefault()
+    navigate("/classifybytext");
+  }
   const handleUploadClick=(e)=>
   {
     e.preventDefault()
@@ -53,7 +59,7 @@ const Navbar = ({ toggle }) => {
       <Nav scrollNav={scrollNav}>
         <NavbarContainer>
           <NavLogo onClick={toggleHome} to="/">
-            <img src={Logo} alt="" />
+            <img src={LogoTM} alt="" />
           </NavLogo>
           <MobileIcon onClick={toggle}>
             <FaBars />
@@ -66,19 +72,15 @@ const Navbar = ({ toggle }) => {
               <NavLinks to="discover" smooth={true} duration={500} spy={true} exact='true' offset={-80} >Discover</NavLinks>
             </NavItem>
             <NavItem>
-              <NavLinks to="products" smooth={true} duration={500} spy={true} exact='true' offset={-80} >Create New Product Version</NavLinks>
+            <NavLinks  onClick={event => handleTextClick(event)}smooth={true} duration={500} spy={true} exact='true' offset={-80} > Classify Glass Type By Text</NavLinks>
             </NavItem>
             <NavItem>
-              {/* <NavLinks  onClick={event => handleClick(event)}smooth={true} duration={500} spy={true} exact='true' offset={-80} >Create New Product</NavLinks> */}
-              <NavLinks to="newproduct" smooth={true} duration={500} spy={true} exact='true' offset={-80} >Create New Product</NavLinks>
-            </NavItem>
-            <NavItem>
-              <NavLinks  onClick={event => handleUploadClick(event)}smooth={true} duration={500} spy={true} exact='true' offset={-80} >Upload File</NavLinks>
+              <NavLinks  onClick={event => handleImageClick(event)}smooth={true} duration={500} spy={true} exact='true' offset={-80} > Classify Glass Type By Image</NavLinks>
+              {/* <NavLinks to="newproduct" smooth={true} duration={500} spy={true} exact='true' offset={-80} >Classify Glass Type By Text</NavLinks> */}
             </NavItem>
           </NavMenu>
           <NavLogo onClick={toggleHome} to="/">
-            <img style={{background:"white"}} src={LogoTM} alt="" />
-            Thought Machine
+            <img style={{background:"white"}} src={LogoTM} alt="" /> 
           </NavLogo>
         </NavbarContainer>
       </Nav>

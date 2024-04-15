@@ -13,6 +13,7 @@ import {
   ArrowRight,
 } from "./HeroElements";
 import { Button } from "../ButtonElement";
+import Navbar2 from "../../components/Navbar/index";
 const HeroSection = () => {
   const [hover, setHover] = useState(false);
 
@@ -20,6 +21,8 @@ const HeroSection = () => {
     setHover(!hover);
   };
   return (
+    <>
+    <Navbar2 />
     <HeroContainer>
       <HeroBg>
         <ImageBg src={Image} />
@@ -43,6 +46,7 @@ const HeroSection = () => {
         </HeroBtnWrapper>
       </HeroContent>
     </HeroContainer>
+    </>
   );
 };
 

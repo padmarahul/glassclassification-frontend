@@ -4,7 +4,6 @@ import TM from "../../common/assets/form.svg";
 import "./Features.css";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { fetchBoxPlots } from "../../services/glassclassificationservices"
 import {
   HeroBtnWrapper,
   ArrowForward,
@@ -26,6 +25,7 @@ import {
   FeatureWrap,
 } from "./Features.elements";
 import Collapse from "rc-collapse";
+import GlassClassificationServices from "../../services/GlassClassificationServices";
 var Panel = Collapse.Panel;
 require("rc-collapse/assets/index.css");
 
@@ -34,23 +34,37 @@ const TextClassification = ({ lightTopLine }) => {
   const [submittedText, setSubmittedText] = useState('');
   const [classification, setClassification] = useState("");
   const [keyCharacteristics, setKeyCharacteristics] = useState([]);
-  const handleSubmit = async (e) => {
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   setSubmittedText(text);
+  //   try {
+  //     const response = await fetch('http://localhost:8001/ml/classify-text', {
+  //       method: 'POST',
+  //       headers: { 'Content-Type': 'application/json' },
+  //       body: JSON.stringify({ description: text })
+  //     });
+
+  //     const result = await response.json();
+  //     if(result != null){
+  //     setClassification(result.class[0]);
+  //     setKeyCharacteristics(result.key_characteristics);
+  //     }
+  //   } catch (error) {
+  //     console.error('Error:', error);
+  //     alert('Failed to classify the text.');
+  //   }
+  // };
+  const handleSubmit = (e) => {
     e.preventDefault();
     setSubmittedText(text);
-    try {
-      const response = await fetch('http://localhost:8001/ml/classify-text', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ description: text })
-      });
-
-      const result = await response.json();
-      setClassification(result.class[0]);
-      setKeyCharacteristics(result.key_characteristics);
-    } catch (error) {
-      console.error('Error:', error);
-      alert('Failed to classify the text.');
-    }
+    const data = { description: text }; // Creating an object with a key 'description'
+    GlassClassificationServices.classifyText(data).then(response => {
+      console.log("rrr", response)
+      setKeyCharacteristics(response.data.key_characteristics);
+      setClassification(response.data.predicted_class)
+    }).catch(error => {
+      console.log(error)
+    })
   };
 
   return (
@@ -70,16 +84,16 @@ const TextClassification = ({ lightTopLine }) => {
           </form>
           {submittedText && (
             <>
-             <p className="classification-result">Glass Type Classification: {classification}</p>
-             <br>
-             </br>
+              <p className="classification-result">Glass Type Classification: {classification}</p>
+              <br>
+              </br>
               <p className="submitted-text">Submitted Description: {submittedText}</p>
             </>
 
           )}
 
-<br>
-</br>
+          <br>
+          </br>
           {keyCharacteristics.length > 0 && (
             <div className="key-characteristics">
               <p>Key Characteristics From Text:</p>
@@ -89,8 +103,8 @@ const TextClassification = ({ lightTopLine }) => {
                 {keyCharacteristics.map((char, index) => (
                   <>
                     <li key={index}>{char}</li>
-                  <br>
-                  </br>
+                    <br>
+                    </br>
                   </>
                 ))}
               </ul>

@@ -4,7 +4,6 @@ import TM from "../../common/assets/form.svg";
 import "./Features.css";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import {fetchBoxPlots} from "../../services/glassclassificationservices"
 import {
   HeroBtnWrapper,
   ArrowForward,

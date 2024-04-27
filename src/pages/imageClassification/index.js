@@ -4,7 +4,6 @@ import TM from "../../common/assets/form.svg";
 import "./Features.css";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import {fetchBoxPlots} from "../../services/glassclassificationservices"
 import {
   HeroBtnWrapper,
   ArrowForward,
@@ -13,6 +12,7 @@ import {
 import { Button } from "../../components/ButtonElement";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
+import GlassClassificationServices from "../../services/GlassClassificationServices"
 import {
   FeaturesRow,
   FeaturesColumn,
@@ -41,27 +41,17 @@ const ImageClassification = ({ lightTopLine }) => {
       classifyImage(file);
   };
 
-  const classifyImage = async (image) => {
+  const classifyImage = (image) => {
     const formData = new FormData();
-    formData.append('file', image);
-
-    try {
-        const response = await fetch('http://localhost:8001/ml/classify', {
-            method: 'POST',
-            body: formData,
-        });
-
-        const result = await response.json();
-        console.log(result)
-        setClassification(result.class[0]);
-    } catch (error) {
-        console.error('Error:', error);
-        alert('Failed to classify the image.');
-    }
+  formData.append('file', image);
+    console.log(image);
+    GlassClassificationServices.classifyImage(formData).then(response => {
+        console.log(response.data)
+        setClassification(response.data.predicted_class)
+    }).catch(error => {
+        console.log(error)
+    })
 };
-
- 
-
 
   return (
     <>
